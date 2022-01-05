@@ -2,8 +2,8 @@ package wiki.scene.web3jdemo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.web3j.crypto.Credentials
@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
             .setOnClickListener {
                 val number = mBinding.etNumber.text.toString().toBigIntegerOrNull()
                     ?: return@setOnClickListener
-                GlobalScope.launch {
+
+                lifecycleScope.launch {
                     flow {
                         val result = storageContract.store(number)
                             .send()
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         mBinding.btnRetrieve
             .setOnClickListener {
-                GlobalScope.launch {
+                lifecycleScope.launch {
                     flow {
                         val result = storageContract.retrieve()
                             .send()
